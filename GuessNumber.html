@@ -36,12 +36,25 @@
         <label></label>
     </div>
     <script>
-        var number = document.getElementById("number1")
+        var num1 = Math.floor(Math.random() * 10)
+        console.log(num1);
+
+        var numbers = new Array(5);
+        for (let i = 0; i < 5; i++) {
+            numbers.push(document.getElementById(`number${i}`));
+        }
+
         function reset() {
-            
+            for (let i = 1; i <= 5; i++) {
+                document.getElementById(`number${i}`).value = "";
+            }
         }
         function guess() {
+            for (let num of numbers) {
+                for (let num of numbers) {
 
+                }
+            }
         }
         function show() {
 
