@@ -31,39 +31,47 @@
         <input type="text" id="number4" value="" size="5" />
         <input type="text" id="number5" value="" size="5" />
         <button onclick="guess()">檢視猜測結果</button>
+        <label id="result"></label>
         <hr />
         <button onclick="show()">莊家數字</button>
         <label id="answer"></label>
     </div>
     <script>
-        var answer = new Array();
-        for (let i = 0; i < 5; i++) {
-            let num = 0;
-            do {
-                num = Math.floor(Math.random() * 10);
-            } while (answer.includes(num));
-            answer.push(num);
+        function start() {
+            var answer = new Array();
+            for (let i = 0; i < 5; i++) {
+                let num = 0;
+                do {
+                    num = Math.floor(Math.random() * 10);
+                } while (answer.includes(num));
+                answer.push(num);
+            }
+            console.log(answer.sort());
+            return answer;
         }
-        console.log(answer.sort())
-
-        var numbers = new Array();
-        for (let i = 0; i < 5; i++) {
-            numbers.push(document.getElementById(`number${i}`));
-        }
+        var answer = start();
 
         function reset() {
+            start();
             for (let i = 1; i <= 5; i++) {
                 document.getElementById(`number${i}`).value = "";
             }
         }
 
-        let count = 0;
         function guess() {
+			let numbers = new Array();
+			for (let i = 0; i < 5; i++) {
+				numbers.push(document.getElementById(`number${i}`));
+			}
+            let count = 0;
+            let correctNumbers = new Array();
             for (let n of numbers) {
                 if (answer.includes(n)) {
+                    correctNumbers.push(n);
                     count++;
 				}
             }
+            document.getElementById("result").innerHTML = `共猜對${count}個數字，分別為${correctNumbers}`;
         }
 
         function show() {
