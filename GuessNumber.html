@@ -33,13 +33,20 @@
         <button onclick="guess()">檢視猜測結果</button>
         <hr />
         <button onclick="show()">莊家數字</button>
-        <label></label>
+        <label id="answer"></label>
     </div>
     <script>
-        var num1 = Math.floor(Math.random() * 10)
-        console.log(num1);
+        var answer = new Array();
+        for (let i = 0; i < 5; i++) {
+            let num = 0;
+            do {
+                num = Math.floor(Math.random() * 10);
+            } while (answer.includes(num));
+            answer.push(num);
+        }
+        console.log(answer.sort())
 
-        var numbers = new Array(5);
+        var numbers = new Array();
         for (let i = 0; i < 5; i++) {
             numbers.push(document.getElementById(`number${i}`));
         }
@@ -49,15 +56,18 @@
                 document.getElementById(`number${i}`).value = "";
             }
         }
-        function guess() {
-            for (let num of numbers) {
-                for (let num of numbers) {
 
-                }
+        let count = 0;
+        function guess() {
+            for (let n of numbers) {
+                if (answer.includes(n)) {
+                    count++;
+				}
             }
         }
-        function show() {
 
+        function show() {
+            document.getElementById("answer").innerHTML = `${answer}`;
         }
     </script>
 </body>
