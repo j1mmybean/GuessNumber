@@ -7,20 +7,21 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "GuessNumber", ".", "{A3C9C8
 	ProjectSection(WebsiteProperties) = preProject
 		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.8.1"
 		Debug.AspNetCompiler.VirtualPath = "/localhost_51445"
-		Debug.AspNetCompiler.PhysicalPath = "..\..\..\Desktop\ISpan\JavaScript\Homework\GuessNumber\"
+		Debug.AspNetCompiler.PhysicalPath = "..\GuessNumber\"
 		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_51445\"
 		Debug.AspNetCompiler.Updateable = "true"
 		Debug.AspNetCompiler.ForceOverwrite = "true"
 		Debug.AspNetCompiler.FixedNames = "false"
 		Debug.AspNetCompiler.Debug = "True"
 		Release.AspNetCompiler.VirtualPath = "/localhost_51445"
-		Release.AspNetCompiler.PhysicalPath = "..\..\..\Desktop\ISpan\JavaScript\Homework\GuessNumber\"
+		Release.AspNetCompiler.PhysicalPath = "..\GuessNumber\"
 		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_51445\"
 		Release.AspNetCompiler.Updateable = "true"
 		Release.AspNetCompiler.ForceOverwrite = "true"
 		Release.AspNetCompiler.FixedNames = "false"
 		Release.AspNetCompiler.Debug = "False"
 		VWDPort = "51445"
+		SlnRelativePath = "..\GuessNumber\"
 	EndProjectSection
 EndProject
 Global
