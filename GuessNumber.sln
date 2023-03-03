@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33122.133
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "GuessNumber", ".", "{A3C9C8B0-FA3A-496B-825A-5058866DCDF9}"
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "GuessNumber(2)", ".", "{A3C9C8B0-FA3A-496B-825A-5058866DCDF9}"
 	ProjectSection(WebsiteProperties) = preProject
-		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.8.1"
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.8"
 		Debug.AspNetCompiler.VirtualPath = "/localhost_51445"
 		Debug.AspNetCompiler.PhysicalPath = "..\GuessNumber\"
 		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_51445\"

@@ -25,15 +25,18 @@
         <label></label>
         <button onclick="reset()">重啟遊戲</button>
         <hr />
-        <input type="text" id="number1" value="" size="5" />
-        <input type="text" id="number2" value="" size="5" />
-        <input type="text" id="number3" value="" size="5" />
-        <input type="text" id="number4" value="" size="5" />
-        <input type="text" id="number5" value="" size="5" />
+        <input type="text" id="number1" size="5" />
+        <input type="text" id="number2" size="5" />
+        <input type="text" id="number3" size="5" />
+        <input type="text" id="number4" size="5" />
+        <input type="text" id="number5" size="5" />
+        <br />
         <button onclick="guess()">檢視猜測結果</button>
+        <br />
         <label id="result"></label>
         <hr />
-        <button onclick="show()">莊家數字</button>
+        <button onclick="showAndHide()">莊家數字</button>
+        <br />  
         <label id="answer"></label>
     </div>
     <script>
@@ -52,7 +55,7 @@
         var answer = start();
 
         function reset() {
-            start();
+            answer = start();
             for (let i = 1; i <= 5; i++) {
                 document.getElementById(`number${i}`).value = "";
             }
@@ -60,8 +63,11 @@
 
         function guess() {
 			let numbers = new Array();
-			for (let i = 0; i < 5; i++) {
-				numbers.push(document.getElementById(`number${i}`));
+            for (let i = 1; i <= 5; i++) {
+                let num = parseInt(document.getElementById(`number${i}`).value);
+				if (!numbers.includes(num)) {
+				    numbers.push(num);
+				}
 			}
             let count = 0;
             let correctNumbers = new Array();
@@ -71,11 +77,17 @@
                     count++;
 				}
             }
-            document.getElementById("result").innerHTML = `共猜對${count}個數字，分別為${correctNumbers}`;
+            document.getElementById("result").innerHTML = `共猜對${count}個數字，分別為${correctNumbers.sort()}`;
         }
-
-        function show() {
-            document.getElementById("answer").innerHTML = `${answer}`;
+        
+        function showAndHide() {
+			answerNumbers = document.getElementById("answer").innerHTML
+			if (answerNumbers == "") {
+				document.getElementById("answer").innerHTML = `${answer}`;
+            }
+			else {
+				document.getElementById("answer").innerHTML = "";
+			}
         }
     </script>
 </body>
