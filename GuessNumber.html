@@ -1,94 +1,153 @@
 ﻿<!DOCTYPE html>
 
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <title></title>
-    <style>
-        .main-box {
-            background-color:antiquewhite;
-            margin: 50px auto;
-            width: 800px;
-            height: 400px;
-            padding: 50px;
-            box-shadow: 5px 5px 10px #999;
-            border: 1px solid #fff;
-            text-align: center;
-            font-size: 1.3em;
-        }
-    </style>
+	<meta charset="utf-8" />
+	<title></title>
+	<style>
+		.main-box {
+			background-color: antiquewhite;
+			margin: 50px auto;
+			width: 800px;
+			height: 400px;
+			padding: 50px;
+			box-shadow: 5px 5px 10px #999;
+			border: 1px solid #fff;
+			text-align: center;
+			font-size: 1.3em;
+		}
+	</style>
 
 </head>
-<body>
-    <div class="main-box">
-        <h1>猜數字遊戲</h1>
-        <label></label>
-        <button onclick="reset()">重啟遊戲</button>
-        <hr />
-        <input type="text" id="number1" size="5" />
-        <input type="text" id="number2" size="5" />
-        <input type="text" id="number3" size="5" />
-        <input type="text" id="number4" size="5" />
-        <input type="text" id="number5" size="5" />
-        <br />
-        <button onclick="guess()">檢視猜測結果</button>
-        <br />
-        <label id="result"></label>
-        <hr />
-        <button onclick="showAndHide()">莊家數字</button>
-        <br />  
-        <label id="answer"></label>
-    </div>
-    <script>
-        function start() {
-            var answer = new Array();
-            for (let i = 0; i < 5; i++) {
-                let num = 0;
-                do {
-                    num = Math.floor(Math.random() * 10);
-                } while (answer.includes(num));
-                answer.push(num);
-            }
-            console.log(answer.sort());
-            return answer;
-        }
-        var answer = start();
+<body id="body">
+	<div class="main-box" id="mainBox">
+		<h1>猜數字遊戲</h1>
+		<label></label>
+		<button onclick="restart()">重啟遊戲</button>
+		<hr />
+		<input type="text" id="number0" value="" size="5" />
+		<input type="text" id="number1" value="" size="5" />
+		<input type="text" id="number2" value="" size="5" />
+		<input type="text" id="number3" value="" size="5" />
+		<input type="text" id="number4" value="" size="5" />
+		<button onclick="guess()">檢視猜測結果</button>
+		<br />
+		<label id="result"></label>
+		<hr />
+		<button id="show" onclick="showOrHide()">顯示莊家數字</button>
+		<br />
+		<label id="answer"></label>
+		<br />
+		<label id="congragulations" style="font-size:50px"></label>
+	</div>
+	<script>
+		//蒐集所有輸入數字之text元素
+		let texts = document.querySelectorAll("input[type=text]");
 
-        function reset() {
-            answer = start();
-            for (let i = 1; i <= 5; i++) {
-                document.getElementById(`number${i}`).value = "";
-            }
-        }
+		//註冊事件使得在text元素輸入數字後按enter可以跳到下一個text元素
+		for (let i = 0; i < texts.length - 1; i++) {
+			texts[i].onchange = function () { texts[i + 1].focus(); }
+		}
 
-        function guess() {
+		//設定莊家數字
+		function start() {
+			var answer = new Array();
+			for (let i = 0; i < 5; i++) {
+				let num = 0;
+				do {
+					num = Math.floor(Math.random() * 10);
+				} while (answer.includes(num));
+				answer.push(num);
+			}
+			console.log(answer.sort());
+			return answer;
+		}
+
+		let reset = false;
+		//遊戲重製會到初始設定
+		function restart() {
+			reset = true;
+			answer = start();
+			for (let i = 0; i < texts.length; i++) {
+				texts[i].value = "";
+				texts[i].style.backgroundColor = "";
+			}
+		}
+
+		//檢視猜測結果，若數字重複則對input以紅色底色標註
+		function guess() {
+			//for testing
+			document.getElementById("congragulations").innerHTML = "Congragulations!!! <br />You Are A Genius???";
+			congragulations();
+
 			let numbers = new Array();
-            for (let i = 1; i <= 5; i++) {
-                let num = parseInt(document.getElementById(`number${i}`).value);
-				if (!numbers.includes(num)) {
-				    numbers.push(num);
+			for (let i = 0; i < texts.length; i++) {
+				texts[i].style.backgroundColor = "";
+				let num = parseInt(texts[i].value);
+				numbers.push(num);
+			}
+
+			let count = 0;
+			let numberRepeated = false;
+			let correctNumbers = new Array();
+			for (let i in numbers) {
+				if (correctNumbers.includes(numbers[i])) {
+					numberRepeated = true;
+					texts[i].style.backgroundColor = "red";
+				}
+				else if (answer.includes(numbers[i])) {
+					correctNumbers.push(numbers[i]);
+					count++;
 				}
 			}
-            let count = 0;
-            let correctNumbers = new Array();
-            for (let n of numbers) {
-                if (answer.includes(n)) {
-                    correctNumbers.push(n);
-                    count++;
-				}
-            }
-            document.getElementById("result").innerHTML = `共猜對${count}個數字，分別為${correctNumbers.sort()}`;
-        }
-        
-        function showAndHide() {
-			answerNumbers = document.getElementById("answer").innerHTML
-			if (answerNumbers == "") {
-				document.getElementById("answer").innerHTML = `${answer}`;
-            }
+			document.getElementById("result").innerHTML = `共猜對${count}個數字，分別為${correctNumbers}`;
+			if (numberRepeated) {
+				document.getElementById("result").innerHTML += "<br />您輸入了重複的數字";
+			}
+			if (count == 5) {
+				document.getElementById("congragulations").innerHTML = "Congragulations!!! You Are A Genius???";
+				congragulations();
+			}
+		}
+
+		let change = false;
+		//猜中全部數字後呈現特效
+		function congragulations() {
+			if (reset == true) {
+				document.getElementById("mainBox").style.backgroundColor = ""
+				document.getElementById("body").style.backgroundColor = ""
+				document.getElementById("congragulations").style.color = ""
+				reset = false;
+				return;
+			}
+			else  if (change == false) {
+				document.getElementById("mainBox").style.backgroundColor = "red"
+				document.getElementById("body").style.backgroundColor = "blue" 
+				document.getElementById("congragulations").style.color = "green"
+			}
 			else {
+				document.getElementById("mainBox").style.backgroundColor = "blue"
+				document.getElementById("body").style.backgroundColor = "red" 
+				document.getElementById("congragulations").style.color = "white";
+			}
+			change = !change;
+			setTimeout(function () { congragulations() }, 500);
+		}
+
+		//顯示或隱藏莊家數字
+		function showOrHide() {
+			if (document.getElementById("answer").innerHTML == "") {
+				document.getElementById("show").innerHTML = "隱藏莊家數字"
+				document.getElementById("answer").innerHTML = `${answer}`;
+			}
+			else {
+				document.getElementById("show").innerHTML = "顯示莊家數字"
 				document.getElementById("answer").innerHTML = "";
 			}
-        }
-    </script>
+		}
+
+		//設定遊戲初始狀態
+		var answer = start();
+	</script>
 </body>
 </html>
