@@ -9,12 +9,17 @@
 			background-color: antiquewhite;
 			margin: 50px auto;
 			width: 800px;
-			height: 400px;
+			height: 500px;
 			padding: 50px;
 			box-shadow: 5px 5px 10px #999;
 			border: 1px solid #fff;
+			border-radius: 9px;
 			text-align: center;
 			font-size: 1.3em;
+		}
+
+		p {
+			padding: 100px, 0;
 		}
 	</style>
 
@@ -22,7 +27,6 @@
 <body id="body">
 	<div class="main-box" id="mainBox">
 		<h1>猜數字遊戲</h1>
-		<label></label>
 		<button onclick="restart()">重啟遊戲</button>
 		<hr />
 		<input type="text" id="number0" value="" size="5" />
@@ -31,14 +35,20 @@
 		<input type="text" id="number3" value="" size="5" />
 		<input type="text" id="number4" value="" size="5" />
 		<button onclick="guess()">檢視猜測結果</button>
-		<br />
-		<label id="result"></label>
+		<p>
+			<label id="result"></label>
+		</p>
 		<hr />
-		<button id="show" onclick="showOrHide()">顯示莊家數字</button>
-		<br />
-		<label id="answer"></label>
-		<br />
-		<label id="congragulations" style="font-size:50px"></label>
+		<p>
+			<button id="show" onclick="showOrHide()">顯示莊家數字</button>
+		</p>
+		<p>
+			<label id="answer"></label>
+		</p>
+		<p>
+			<label id="congragulations" style="font-size:50px"></label>
+		</p>
+
 	</div>
 	<script>
 		//蒐集所有輸入數字之text元素
@@ -64,39 +74,42 @@
 		}
 
 		let reset = false;
-		//遊戲重製會到初始設定
+		//遊戲重製回到初始設定
 		function restart() {
 			reset = true;
 			answer = start();
+			document.getElementById("congragulations").innerHTML = "";
 			for (let i = 0; i < texts.length; i++) {
 				texts[i].value = "";
 				texts[i].style.backgroundColor = "";
 			}
 		}
 
-		//檢視猜測結果，若數字重複則對input以紅色底色標註
+		//檢視猜測結果
 		function guess() {
 			//for testing
-			document.getElementById("congragulations").innerHTML = "Congragulations!!! <br />You Are A Genius???";
-			congragulations();
+			//document.getElementById("congragulations").innerHTML = "Congragulations!!! <br />You Are A Genius???";
+			//congragulations();
 
-			let numbers = new Array();
+			let guessNumbers = new Array();
 			for (let i = 0; i < texts.length; i++) {
 				texts[i].style.backgroundColor = "";
 				let num = parseInt(texts[i].value);
-				numbers.push(num);
+				guessNumbers.push(num);
 			}
 
+			//告知猜對的數字和其數目
+			//若數字重複則對input以紅色底色標註，並以文字告知
 			let count = 0;
 			let numberRepeated = false;
 			let correctNumbers = new Array();
-			for (let i in numbers) {
-				if (correctNumbers.includes(numbers[i])) {
+			for (let i in guessNumbers) {
+				if (correctNumbers.includes(guessNumbers[i])) {
 					numberRepeated = true;
 					texts[i].style.backgroundColor = "red";
 				}
-				else if (answer.includes(numbers[i])) {
-					correctNumbers.push(numbers[i]);
+				else if (answer.includes(guessNumbers[i])) {
+					correctNumbers.push(guessNumbers[i]);
 					count++;
 				}
 			}
@@ -104,14 +117,15 @@
 			if (numberRepeated) {
 				document.getElementById("result").innerHTML += "<br />您輸入了重複的數字";
 			}
-			if (count == 5) {
+			//若全部猜中，呈現恭喜特效
+			if (count == 5 && document.getElementById("congragulations").innerHTML == "") {
 				document.getElementById("congragulations").innerHTML = "Congragulations!!! You Are A Genius???";
 				congragulations();
 			}
 		}
 
 		let change = false;
-		//猜中全部數字後呈現特效
+		//猜中全部數字後呈現之特效
 		function congragulations() {
 			if (reset == true) {
 				document.getElementById("mainBox").style.backgroundColor = ""
@@ -120,14 +134,14 @@
 				reset = false;
 				return;
 			}
-			else  if (change == false) {
+			else if (change == false) {
 				document.getElementById("mainBox").style.backgroundColor = "red"
-				document.getElementById("body").style.backgroundColor = "blue" 
+				document.getElementById("body").style.backgroundColor = "blue"
 				document.getElementById("congragulations").style.color = "green"
 			}
 			else {
 				document.getElementById("mainBox").style.backgroundColor = "blue"
-				document.getElementById("body").style.backgroundColor = "red" 
+				document.getElementById("body").style.backgroundColor = "red"
 				document.getElementById("congragulations").style.color = "white";
 			}
 			change = !change;
