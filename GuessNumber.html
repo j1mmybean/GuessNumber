@@ -91,30 +91,35 @@
 			//document.getElementById("congragulations").innerHTML = "Congragulations!!! <br />You Are A Genius???";
 			//congragulations();
 
+			let numberRepeat = false;
 			let guessNumbers = new Array();
 			for (let i = 0; i < texts.length; i++) {
 				texts[i].style.backgroundColor = "";
 				let num = parseInt(texts[i].value);
-				guessNumbers.push(num);
+				if (isNaN(num)) {
+					continue;
+				}
+				else if (guessNumbers.includes(num)) {
+					numberRepeat = true;
+					texts[i].style.backgroundColor = "red";
+				}
+				else {
+					guessNumbers.push(num);
+				}
 			}
 
 			//告知猜對的數字和其數目
 			//若數字重複則對input以紅色底色標註，並以文字告知
 			let count = 0;
-			let numberRepeated = false;
 			let correctNumbers = new Array();
 			for (let i in guessNumbers) {
-				if (correctNumbers.includes(guessNumbers[i])) {
-					numberRepeated = true;
-					texts[i].style.backgroundColor = "red";
-				}
-				else if (answer.includes(guessNumbers[i])) {
+				if (answer.includes(guessNumbers[i])) {
 					correctNumbers.push(guessNumbers[i]);
 					count++;
 				}
 			}
 			document.getElementById("result").innerHTML = `共猜對${count}個數字，分別為${correctNumbers}`;
-			if (numberRepeated) {
+			if (numberRepeat) {
 				document.getElementById("result").innerHTML += "<br />您輸入了重複的數字";
 			}
 			//若全部猜中，呈現恭喜特效
